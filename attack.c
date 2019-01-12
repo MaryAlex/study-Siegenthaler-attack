@@ -15,34 +15,34 @@ uint16_t *runSiegenthaler(uint8_t N, uint32_t size, uint8_t *sequence) {
     uint8_t *test_sequence;
     double cross_correlation_fun = 0;
     double posteriori_probabilities = 0;
-    float *prior_probabilities = malloc(N * sizeof(float));
+    double *prior_probabilities = malloc(N * sizeof(double));
     uint16_t *result = malloc((N) * sizeof(uint16_t));
     uint32_t n = size / 2;
-    for (uint8_t i = 0; i < N; ++i) {
+    for (uint8_t j = 0; j < N; ++j) {
         bool isToOuterFor = false;
-        prior_probabilities[i] = PROBABILITIES[i];
-        for (uint16_t j = 0; j < UINT16_MAX; ++j) {
+        prior_probabilities[j] = PROBABILITIES[j];
+        for (uint16_t d = 0; d < UINT16_MAX; ++d) {
             if (isToOuterFor) {
                 break;
             }
             cross_correlation_fun = 0;
             uint32_t tmp = 0;
-            test_sequence = createAndWorkTestR(j, size, i);
-            for (int k = 0; k < n; ++k) {
-                cross_correlation_fun += (MINUS_ONE ^ sequence[k]) * (MINUS_ONE ^ test_sequence[k + j]);
+            test_sequence = createAndWorkTestR(d, size, j);
+            for (int i = 0; i < n; ++i) {
+                cross_correlation_fun += (MINUS_ONE ^ sequence[i]) * (MINUS_ONE ^ test_sequence[i + d]);
             }
             cross_correlation_fun /= n;
             if (cross_correlation_fun < MAGIC_NUMBER) {
                 continue;
             }
-            for (int l = n; l <= size; ++l) {
-                if (sequence[l] == test_sequence[l]) {
+            for (int i = n; i <= size; ++i) {
+                if (sequence[i] == test_sequence[i]) {
                     tmp++;
                 }
                 posteriori_probabilities = (tmp * 1.0) / n;
-                if (posteriori_probabilities > prior_probabilities[i] - SIGNIFICANCE_LEVEL &&
-                    posteriori_probabilities < prior_probabilities[i] + SIGNIFICANCE_LEVEL) {
-                    result[i] = j;
+                if (posteriori_probabilities > prior_probabilities[j] - SIGNIFICANCE_LEVEL &&
+                    posteriori_probabilities < prior_probabilities[j] + SIGNIFICANCE_LEVEL) {
+                    result[j] = d;
                     isToOuterFor = true;
                     break;
                 }
