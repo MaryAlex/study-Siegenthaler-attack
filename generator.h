@@ -29,7 +29,7 @@ typedef struct Generator Generator;
  * @param Number of LFSR in generator(Max number is 3 for now)
  * @return initialized combine generator.
  */
-Generator create_generator(uint8_t N);
+Generator create_generator(uint8_t);
 
 /**
  * Generates pseudo-random sequence with <i>size</i> length with help of <i>generator</i>
@@ -37,7 +37,9 @@ Generator create_generator(uint8_t N);
  * @param size length of output sequence
  * @return pseudo-random sequence with <i>size</i> length
  */
-uint8_t * generate_sequence(Generator generator, uint32_t size);
+uint8_t * generate_sequence(Generator, uint32_t);
+
+extern uint16_t POLYNOMIALS[];
 
 #endif // SIEGENTHALER_ATTACK_GENERATOR_H
 
