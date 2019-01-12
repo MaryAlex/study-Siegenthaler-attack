@@ -52,6 +52,6 @@ void init_generators_arrays(Generator *generator) {
     srand((unsigned int) time(NULL));
     for (uint8_t i = 0; i < N; ++i) {
         reverse_polynomials[i] = POLYNOMIALS[i];
-        init_states[i] = (uint16_t) (rand() % (UINT16_MAX + 1));
+        init_states[i] = (uint16_t) (rand() % UINT16_MAX);
     }
 }

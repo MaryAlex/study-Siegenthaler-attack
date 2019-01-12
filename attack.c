@@ -21,7 +21,7 @@ uint16_t *runSiegenthaler(uint8_t N, uint32_t size, uint8_t *sequence) {
     for (uint8_t i = 0; i < N; ++i) {
         bool isToOuterFor = false;
         prior_probabilities[i] = PROBABILITIES[i];
-        for (uint16_t j = 0; j <= UINT16_MAX; ++j) {
+        for (uint16_t j = 0; j < UINT16_MAX; ++j) {
             if (isToOuterFor) {
                 break;
             }
