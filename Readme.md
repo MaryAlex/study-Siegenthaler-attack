@@ -133,4 +133,4 @@ uint16_t a[N]; // полученные с помощью атаки началь
 5. Вывести на экран "Мы сдали лабу)";
 6. Вернуть 0;
 
-(c) Written by Maxim Kazlovsky. 
+(c) Written by [Maxim Kazlovsky](https://github.com/MaksimKazlovski/). 
