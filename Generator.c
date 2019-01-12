@@ -1,0 +1,60 @@
+#include <stdlib.h>
+#include <time.h>
+#include "Generator.h"
+
+#define ZERO 0
+#define ONE 0x0001
+
+const uint16_t POLYNOMIALS[] = {0x8003, 0x8011, 0x8081};
+
+/**
+ * Initialize generator's reverse_polynomials from POLYNOMIALS constant
+ * and generates random values for init_states.
+ * @param generator object which reverse_polynomials and init_states fields changed.
+ */
+void init_generators_arrays(Generator *generator);
+
+Generator create_generator(uint8_t N) {
+    Generator generator = {
+            .N = N,
+            .reverse_polynomials = malloc(N * sizeof(uint16_t)),
+            .init_states = malloc(N * sizeof(uint16_t))
+    };
+    init_generators_arrays(&generator);
+    return generator;
+}
+
+uint8_t * generate_sequence(Generator generator, uint32_t size) {
+    uint8_t N = generator.N;
+    // TODO: Better do copy of arrays;
+    uint16_t *reverse_polynomials = generator.reverse_polynomials;
+    uint16_t *init_states = generator.init_states;
+    uint8_t *tmp = malloc(size * sizeof(uint8_t));
+    uint8_t *result = calloc(size, sizeof(uint8_t));
+    for (int i = 0; i < size; ++i) {
+        for (int j = 0; j < N; ++j) {
+            if (init_states[j] & ONE) {
+                init_states[j] = (init_states[j] ^ reverse_polynomials[j] >> ONE) | (INT16_MAX + ONE);
+                tmp[j] = ONE;
+            } else {
+                init_states[j] = init_states[j] >> ONE;
+                tmp[j] = ZERO;
+            }
+        }
+        result[i] = (tmp[0] * tmp[1]) ^ (tmp[0] ^ 1) * tmp[2];
+    }
+    return result;
+}
+
+// Private functions
+
+void init_generators_arrays(Generator *generator) {
+    uint8_t N = generator->N;
+    uint16_t *reverse_polynomials = generator->reverse_polynomials;
+    uint16_t *init_states = generator->init_states;
+    srand((unsigned int) time(NULL));
+    for (uint8_t i = 0; i < N; ++i) {
+        reverse_polynomials[i] = POLYNOMIALS[i];
+        init_states[i] = (uint16_t) (rand() % (UINT16_MAX + 1));
+    }
+}
