@@ -19,10 +19,10 @@ uint16_t *runSiegenthaler(uint8_t N, uint32_t size, uint8_t *sequence) {
     uint16_t *result = malloc((N) * sizeof(uint16_t));
     uint32_t n = size / 2;
     for (uint8_t j = 0; j < N; ++j) {
-        bool isToOuterFor = false;
+        bool is_to_outer_for = false;
         prior_probabilities[j] = PROBABILITIES[j];
         for (uint16_t d = 0; d < UINT16_MAX; ++d) {
-            if (isToOuterFor) {
+            if (is_to_outer_for) {
                 break;
             }
             cross_correlation_fun = 0;
@@ -43,7 +43,7 @@ uint16_t *runSiegenthaler(uint8_t N, uint32_t size, uint8_t *sequence) {
                 if (posteriori_probabilities > prior_probabilities[j] - SIGNIFICANCE_LEVEL &&
                     posteriori_probabilities < prior_probabilities[j] + SIGNIFICANCE_LEVEL) {
                     result[j] = d;
-                    isToOuterFor = true;
+                    is_to_outer_for = true;
                     break;
                 }
             }
