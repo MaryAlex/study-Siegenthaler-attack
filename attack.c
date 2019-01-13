@@ -12,9 +12,7 @@ const float PROBABILITIES[] = {0.5, 0.75, 0.75};
 uint8_t *createAndWorkTestR(uint16_t, uint32_t, uint8_t);
 
 uint16_t *runSiegenthaler(uint8_t N, uint32_t size, uint8_t *sequence) {
-    uint8_t *test_sequence;
-    double cross_correlation_fun = 0;
-    double posteriori_probabilities = 0;
+    uint8_t *test_sequence = NULL;
     double *prior_probabilities = malloc(N * sizeof(double));
     uint16_t *result = malloc((N) * sizeof(uint16_t));
     uint32_t n = size / 2;
@@ -25,7 +23,10 @@ uint16_t *runSiegenthaler(uint8_t N, uint32_t size, uint8_t *sequence) {
             if (is_to_outer_for) {
                 break;
             }
-            cross_correlation_fun = 0;
+            if (test_sequence) {
+                free(test_sequence);
+            }
+            double cross_correlation_fun = 0;
             uint32_t tmp = 0;
             test_sequence = createAndWorkTestR(d, size, j);
             for (int i = 0; i < n; ++i) {
@@ -39,7 +40,7 @@ uint16_t *runSiegenthaler(uint8_t N, uint32_t size, uint8_t *sequence) {
                 if (sequence[i] == test_sequence[i]) {
                     tmp++;
                 }
-                posteriori_probabilities = (tmp * 1.0) / n;
+                double posteriori_probabilities = (tmp * 1.0) / n;
                 if (posteriori_probabilities > prior_probabilities[j] - SIGNIFICANCE_LEVEL &&
                     posteriori_probabilities < prior_probabilities[j] + SIGNIFICANCE_LEVEL) {
                     result[j] = d;
@@ -49,6 +50,7 @@ uint16_t *runSiegenthaler(uint8_t N, uint32_t size, uint8_t *sequence) {
             }
         }
     }
+    free(prior_probabilities);
     return result;
 }
 

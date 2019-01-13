@@ -40,6 +40,9 @@ uint8_t *generate_sequence(Generator generator, uint32_t size) {
         }
         result[i] = (tmp[0] * tmp[1]) ^ (tmp[0] ^ 1) * tmp[2];
     }
+    free(reverse_polynomials);
+    free(init_states);
+    free(tmp);
     return result;
 }
 

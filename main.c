@@ -1,4 +1,5 @@
 #include <stdio.h>
+#include <stdlib.h>
 #include "generator.h"
 #include "attack.h"
 
@@ -18,5 +19,9 @@ int main() {
     print_array(generator.init_states, GIVEN_N);
     uint16_t *test_sequence = runSiegenthaler(generator.N, SEQUENCE_SIZE, sequence);
     print_array(test_sequence, GIVEN_N);
+    free(generator.init_states);
+    free(generator.reverse_polynomials);
+    free(sequence);
+    free(test_sequence);
     return 0;
 }
