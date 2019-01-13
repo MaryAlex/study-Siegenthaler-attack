@@ -2,8 +2,6 @@
 #define SIEGENTHALER_ATTACK_GENERATOR_H
 
 #include <stdint.h>
-#include <stdlib.h>
-#include <time.h>
 
 /**
  * @brief Combine generator - cryptographic object which generates some pseudo-random sequence.
@@ -39,7 +37,7 @@ Generator create_generator(uint8_t);
  * @param size length of output sequence
  * @return pseudo-random sequence with <i>size</i> length
  */
-uint8_t * generate_sequence(Generator, uint32_t);
+uint8_t *generate_sequence(Generator, uint32_t);
 
 extern uint16_t POLYNOMIALS[];
 

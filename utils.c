@@ -1,3 +1,5 @@
+#include <stdlib.h>
+#include <string.h>
 #include "utils.h"
 
 uint16_t * copy_uint16_array(uint16_t *array, uint8_t size) {

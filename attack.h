@@ -2,8 +2,7 @@
 #define SIEGENTHALER_ATTACK_ATTACK_H
 
 #include <stdint.h>
-#include <stdlib.h>
-#include <math.h>
+#include "generator.h"
 
 /**
  * Run Siegenthaler algorithm
@@ -12,6 +11,6 @@
  * @param sequence on what algorithm will be written
  * @return calculated by algorithm initialized state of LFSR
  */
-uint16_t *runSiegenthaler(uint8_t, uint32_t, uint8_t *);
+uint16_t *runSiegenthaler(Generator generator, uint32_t, uint8_t *);
 
 #endif //SIEGENTHALER_ATTACK_ATTACK_H
