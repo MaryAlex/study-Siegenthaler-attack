@@ -23,9 +23,6 @@ uint16_t *runSiegenthaler(uint8_t N, uint32_t size, uint8_t *sequence) {
             if (is_to_outer_for) {
                 break;
             }
-            if (test_sequence) {
-                free(test_sequence);
-            }
             double cross_correlation_fun = 0;
             uint32_t tmp = 0;
             test_sequence = createAndWorkTestR(d, size, j);
@@ -34,6 +31,7 @@ uint16_t *runSiegenthaler(uint8_t N, uint32_t size, uint8_t *sequence) {
             }
             cross_correlation_fun /= n;
             if (cross_correlation_fun < MAGIC_NUMBER) {
+                free(test_sequence);
                 continue;
             }
             for (int i = n; i <= size; ++i) {
@@ -48,6 +46,7 @@ uint16_t *runSiegenthaler(uint8_t N, uint32_t size, uint8_t *sequence) {
                     break;
                 }
             }
+            free(test_sequence);
         }
     }
     free(prior_probabilities);
