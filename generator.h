@@ -2,6 +2,8 @@
 #define SIEGENTHALER_ATTACK_GENERATOR_H
 
 #include <stdint.h>
+#include <stdlib.h>
+#include <time.h>
 
 /**
  * @brief Combine generator - cryptographic object which generates some pseudo-random sequence.

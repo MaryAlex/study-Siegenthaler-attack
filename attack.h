@@ -2,7 +2,8 @@
 #define SIEGENTHALER_ATTACK_ATTACK_H
 
 #include <stdint.h>
-#include "generator.h"
+#include <stdlib.h>
+#include <math.h>
 
 /**
  * Run Siegenthaler algorithm
