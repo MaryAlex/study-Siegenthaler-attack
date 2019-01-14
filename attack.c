@@ -5,7 +5,8 @@
 
 #define MINUS_ONE (-1)
 
-const float MAGIC_NUMBERS[] = {0.95, 0.5, 0.5}; // see Readme for more information.
+// TODO: Check if 0.5 and round to decimal
+const float MAGIC_NUMBERS[] = {0.95, 0.4, 0.4}; // see Readme for more information.
 
 /**
  * Generates sequence of length <i>size</i> with polynomial with index <i>init_sequence_index</i>
@@ -19,7 +20,8 @@ uint8_t *createTestSequenceLFSR(uint16_t, uint32_t, uint8_t);
  * TODO
  * @return sequence from zero and ones with length <i>size</i>
  */
-uint8_t *createTestSequenceGenerator(uint16_t, uint32_t, Generator);
+ // TODO: remove generator from there
+uint8_t *createTestSequenceGenerator(uint16_t, uint32_t, Generator, __uint16_t *);
 
 uint16_t *runSiegenthaler(Generator generator, uint32_t size, uint8_t *sequence) {
     uint8_t N = generator.N;
@@ -37,6 +39,7 @@ uint16_t *runSiegenthaler(Generator generator, uint32_t size, uint8_t *sequence)
             test_sequence = createTestSequenceLFSR(d, size, j);
 
             for (uint32_t i = 0; i < n; ++i) {
+                // TODO: Optimize pow
                 cross_correlation_fun += (pow(MINUS_ONE, sequence[i])) * (pow(MINUS_ONE, test_sequence[i]));
             }
             cross_correlation_fun /= n;
@@ -55,7 +58,7 @@ uint16_t *runSiegenthaler(Generator generator, uint32_t size, uint8_t *sequence)
         }
         double cross_correlation_fun = 0;
 
-        test_sequence = createTestSequenceGenerator(d, size, generator);
+        test_sequence = createTestSequenceGenerator(d, size, generator, result);
 
         for (uint32_t i = 0; i < size; ++i) {
             cross_correlation_fun += (pow(MINUS_ONE, sequence[i])) * (pow(MINUS_ONE, test_sequence[i]));
@@ -87,11 +90,11 @@ uint8_t *createTestSequenceLFSR(uint16_t iteration, uint32_t size, uint8_t init_
     return test_sequence;
 }
 
-uint8_t *createTestSequenceGenerator(uint16_t iteration, uint32_t size, Generator generator) {
+uint8_t *createTestSequenceGenerator(uint16_t iteration, uint32_t size, Generator generator, u_int16_t *founded) {
     // TODO: refact this copy-past as inline function maybe
     uint8_t N = generator.N;
     uint16_t *reverse_polynomials = copy_uint16_array(generator.reverse_polynomials, N);
-    uint16_t *init_states = copy_uint16_array(generator.init_states, N);
+    uint16_t *init_states = copy_uint16_array(founded, N);
     uint8_t *tmp = malloc(N * sizeof(uint8_t));
     uint8_t *result = malloc(size * sizeof(uint8_t));
     init_states[0] = iteration;
